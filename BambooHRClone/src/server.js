@@ -5,38 +5,32 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const protectedRoutes = require("./routes/protectedRoutes");
 const employeeRoutes = require("./routes/employeeRoutes");
-const attendanceRoutes = require("./routes/attendanceRoutes");
-const leaveRoutes = require("./routes/leaveRoutes");
-const payrollRoutes = require("./routes/payrollRoutes");
-const reportsRoutes = require("./routes/reportsRoutes");
 
-
-
-const app = express();
+const app = express(); // ✅ Declare app first
 
 // Middleware
 app.use(express.json());
 app.use(cors());
 
+// Fix: Move CORS headers setup here
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
+});
 
 // Middleware for routes
 app.use("/api/auth", authRoutes);
 app.use("/api/protected", protectedRoutes);
 app.use("/api/employees", employeeRoutes);
-app.use("/api/attendance", attendanceRoutes);
-app.use("/api/leaves", leaveRoutes);
-app.use("/api/payroll", payrollRoutes);
-app.use("/api/reports", reportsRoutes);
-app.use("/api/employees", require("./routes/employeeRoutes"));
-
-
 
 console.log("🔹 Connecting to Database...");
 connectDB().then(() => console.log("🔹 Database Connection Successful!"));
 
-// API Routes
+// API Test Route
 app.get("/", (req, res) => {
-    res.send("BambooHR Clone API is running...");
+  res.send("BambooHR Clone API is running...");
 });
 
 // Start Server
