@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+/* Make table responsive */
+@media (max-width: 768px) {
+    table {
+      display: block;
+      overflow-x: auto;
+    }
+  }
+  
+  /* Improve button spacing */
+  button {
+    transition: all 0.2s ease-in-out;
+  }
+  
+  button:hover {
+    transform: scale(1.05);
+  }
+  
